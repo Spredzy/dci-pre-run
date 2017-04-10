@@ -1,0 +1,3 @@
+---
+- name: Echo pre-run
+  shell: echo 'pre-run'
