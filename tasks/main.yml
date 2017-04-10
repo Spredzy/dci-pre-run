@@ -1,3 +1,23 @@
 ---
-- name: Echo pre-run
-  shell: echo 'pre-run'
+- name: Ensure fresh allinone is created
+  os_server:
+    name: hypervisor
+    key_name: spredzy
+    image: RHEL 7.2 x86_64
+    flavor: m1.hypervisor
+    auth:
+      auth_url: '{{ os_auth_url }}'
+      username: '{{ os_username }}'
+      password: '{{ os_password }}'
+      project_name: '{{ os_project_name }}'
+    nics:
+      - net-name: private
+    security_groups:
+      - ssh
+    floating_ips:
+      - '{{ hypervisor_ip }}'
+
+- name: Wait for allinone to be up and running
+  wait_for:
+     host: '{{ hypervisor_ip }}'
+     port: 22
